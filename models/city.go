@@ -28,7 +28,7 @@ type City struct {
 	Geoname *CityGeoName `json:"geoname,omitempty"`
 
 	// Id of the city
-	ID float64 `json:"id,omitempty"`
+	ID int64 `json:"id,omitempty"`
 
 	// Name of city
 	Name string `json:"name,omitempty"`

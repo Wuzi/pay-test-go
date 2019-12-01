@@ -12,22 +12,6 @@ paths:
       description: Show a list of all cities
       produces:
         - application/json
-      parameters:
-        - name: hasWeather
-          in: query
-          type: string
-          enum:
-            - 'true'
-            - 'false'
-          description: Get only cities that have weather
-        - name: lat
-          in: query
-          type: number
-          description: Filter by latitude
-        - name: lon
-          in: query
-          type: number
-          description: Filter by longitude
       responses:
         '200':
           description: Return an array with all cities
@@ -53,12 +37,7 @@ paths:
         '200':
           description: Return a single object with city data
           schema:
-            allOf:
-              - $ref: '#/definitions/City'
-              - type: object
-                properties:
-                  weather:
-                    $ref: '#/definitions/Weather'
+            $ref: '#/definitions/City'
         '404':
           description: City not found
   '/cities/{id}/weathers':
@@ -75,14 +54,6 @@ paths:
           type: integer
           required: true
           description: The id of the city
-        - name: startDate
-          in: query
-          type: string
-          description: The start date to filter
-        - name: endDate
-          in: query
-          type: string
-          description: The end date to filter
       responses:
         '200':
           description: Return an array of weathers of a single city
@@ -163,7 +134,7 @@ definitions:
     type: object
     properties:
       id:
-        type: number
+        type: integer
         example: 1
         description: Id of the city
       coord:
@@ -275,7 +246,7 @@ definitions:
     type: object
     properties:
       cityId:
-        type: number
+        type: integer
         example: 1
         description: Id of the city
       data:

@@ -35,30 +35,6 @@ func init() {
           "City"
         ],
         "summary": "Show a list of all cities",
-        "parameters": [
-          {
-            "enum": [
-              "true",
-              "false"
-            ],
-            "type": "string",
-            "description": "Get only cities that have weather",
-            "name": "hasWeather",
-            "in": "query"
-          },
-          {
-            "type": "number",
-            "description": "Filter by latitude",
-            "name": "lat",
-            "in": "query"
-          },
-          {
-            "type": "number",
-            "description": "Filter by longitude",
-            "name": "lon",
-            "in": "query"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Return an array with all cities",
@@ -95,19 +71,7 @@ func init() {
           "200": {
             "description": "Return a single object with city data",
             "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/City"
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "weather": {
-                      "$ref": "#/definitions/Weather"
-                    }
-                  }
-                }
-              ]
+              "$ref": "#/definitions/City"
             }
           },
           "404": {
@@ -133,18 +97,6 @@ func init() {
             "name": "id",
             "in": "path",
             "required": true
-          },
-          {
-            "type": "string",
-            "description": "The start date to filter",
-            "name": "startDate",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "The end date to filter",
-            "name": "endDate",
-            "in": "query"
           }
         ],
         "responses": {
@@ -181,7 +133,7 @@ func init() {
         },
         "id": {
           "description": "Id of the city",
-          "type": "number",
+          "type": "integer",
           "example": 1
         },
         "name": {
@@ -298,7 +250,7 @@ func init() {
       "properties": {
         "cityId": {
           "description": "Id of the city",
-          "type": "number",
+          "type": "integer",
           "example": 1
         },
         "data": {
@@ -438,30 +390,6 @@ func init() {
           "City"
         ],
         "summary": "Show a list of all cities",
-        "parameters": [
-          {
-            "enum": [
-              "true",
-              "false"
-            ],
-            "type": "string",
-            "description": "Get only cities that have weather",
-            "name": "hasWeather",
-            "in": "query"
-          },
-          {
-            "type": "number",
-            "description": "Filter by latitude",
-            "name": "lat",
-            "in": "query"
-          },
-          {
-            "type": "number",
-            "description": "Filter by longitude",
-            "name": "lon",
-            "in": "query"
-          }
-        ],
         "responses": {
           "200": {
             "description": "Return an array with all cities",
@@ -498,19 +426,7 @@ func init() {
           "200": {
             "description": "Return a single object with city data",
             "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/City"
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "weather": {
-                      "$ref": "#/definitions/Weather"
-                    }
-                  }
-                }
-              ]
+              "$ref": "#/definitions/City"
             }
           },
           "404": {
@@ -536,18 +452,6 @@ func init() {
             "name": "id",
             "in": "path",
             "required": true
-          },
-          {
-            "type": "string",
-            "description": "The start date to filter",
-            "name": "startDate",
-            "in": "query"
-          },
-          {
-            "type": "string",
-            "description": "The end date to filter",
-            "name": "endDate",
-            "in": "query"
           }
         ],
         "responses": {
@@ -584,7 +488,7 @@ func init() {
         },
         "id": {
           "description": "Id of the city",
-          "type": "number",
+          "type": "integer",
           "example": 1
         },
         "name": {
@@ -701,7 +605,7 @@ func init() {
       "properties": {
         "cityId": {
           "description": "Id of the city",
-          "type": "number",
+          "type": "integer",
           "example": 1
         },
         "data": {

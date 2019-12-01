@@ -9,6 +9,8 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/runtime"
+
+	models "github.com/Wuzi/pay-test-go/models"
 )
 
 // GetCitiesIDOKCode is the HTTP code returned for type GetCitiesIDOK
@@ -23,7 +25,7 @@ type GetCitiesIDOK struct {
 	/*
 	  In: Body
 	*/
-	Payload *GetCitiesIDOKBody `json:"body,omitempty"`
+	Payload *models.City `json:"body,omitempty"`
 }
 
 // NewGetCitiesIDOK creates GetCitiesIDOK with default headers values
@@ -33,13 +35,13 @@ func NewGetCitiesIDOK() *GetCitiesIDOK {
 }
 
 // WithPayload adds the payload to the get cities Id o k response
-func (o *GetCitiesIDOK) WithPayload(payload *GetCitiesIDOKBody) *GetCitiesIDOK {
+func (o *GetCitiesIDOK) WithPayload(payload *models.City) *GetCitiesIDOK {
 	o.Payload = payload
 	return o
 }
 
 // SetPayload sets the payload to the get cities Id o k response
-func (o *GetCitiesIDOK) SetPayload(payload *GetCitiesIDOKBody) {
+func (o *GetCitiesIDOK) SetPayload(payload *models.City) {
 	o.Payload = payload
 }
 

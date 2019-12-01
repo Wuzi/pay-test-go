@@ -9,19 +9,11 @@ import (
 	"errors"
 	"net/url"
 	golangswaggerpaths "path"
-
-	"github.com/go-openapi/swag"
 )
 
 // GetCitiesURL generates an URL for the get cities operation
 type GetCitiesURL struct {
-	HasWeather *string
-	Lat        *float64
-	Lon        *float64
-
 	_basePath string
-	// avoid unkeyed usage
-	_ struct{}
 }
 
 // WithBasePath sets the base path for this url builder, only required when it's different from the
@@ -50,34 +42,6 @@ func (o *GetCitiesURL) Build() (*url.URL, error) {
 		_basePath = "/v1"
 	}
 	_result.Path = golangswaggerpaths.Join(_basePath, _path)
-
-	qs := make(url.Values)
-
-	var hasWeatherQ string
-	if o.HasWeather != nil {
-		hasWeatherQ = *o.HasWeather
-	}
-	if hasWeatherQ != "" {
-		qs.Set("hasWeather", hasWeatherQ)
-	}
-
-	var latQ string
-	if o.Lat != nil {
-		latQ = swag.FormatFloat64(*o.Lat)
-	}
-	if latQ != "" {
-		qs.Set("lat", latQ)
-	}
-
-	var lonQ string
-	if o.Lon != nil {
-		lonQ = swag.FormatFloat64(*o.Lon)
-	}
-	if lonQ != "" {
-		qs.Set("lon", lonQ)
-	}
-
-	_result.RawQuery = qs.Encode()
 
 	return &_result, nil
 }

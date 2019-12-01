@@ -18,9 +18,6 @@ import (
 type GetCitiesIDWeathersURL struct {
 	ID int64
 
-	EndDate   *string
-	StartDate *string
-
 	_basePath string
 	// avoid unkeyed usage
 	_ struct{}
@@ -59,26 +56,6 @@ func (o *GetCitiesIDWeathersURL) Build() (*url.URL, error) {
 		_basePath = "/v1"
 	}
 	_result.Path = golangswaggerpaths.Join(_basePath, _path)
-
-	qs := make(url.Values)
-
-	var endDateQ string
-	if o.EndDate != nil {
-		endDateQ = *o.EndDate
-	}
-	if endDateQ != "" {
-		qs.Set("endDate", endDateQ)
-	}
-
-	var startDateQ string
-	if o.StartDate != nil {
-		startDateQ = *o.StartDate
-	}
-	if startDateQ != "" {
-		qs.Set("startDate", startDateQ)
-	}
-
-	_result.RawQuery = qs.Encode()
 
 	return &_result, nil
 }

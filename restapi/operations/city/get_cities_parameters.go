@@ -9,12 +9,7 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/errors"
-	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/go-openapi/swag"
-	"github.com/go-openapi/validate"
-
-	strfmt "github.com/go-openapi/strfmt"
 )
 
 // NewGetCitiesParams creates a new GetCitiesParams object
@@ -32,19 +27,6 @@ type GetCitiesParams struct {
 
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
-
-	/*Get only cities that have weather
-	  In: query
-	*/
-	HasWeather *string
-	/*Filter by latitude
-	  In: query
-	*/
-	Lat *float64
-	/*Filter by longitude
-	  In: query
-	*/
-	Lon *float64
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -56,101 +38,8 @@ func (o *GetCitiesParams) BindRequest(r *http.Request, route *middleware.Matched
 
 	o.HTTPRequest = r
 
-	qs := runtime.Values(r.URL.Query())
-
-	qHasWeather, qhkHasWeather, _ := qs.GetOK("hasWeather")
-	if err := o.bindHasWeather(qHasWeather, qhkHasWeather, route.Formats); err != nil {
-		res = append(res, err)
-	}
-
-	qLat, qhkLat, _ := qs.GetOK("lat")
-	if err := o.bindLat(qLat, qhkLat, route.Formats); err != nil {
-		res = append(res, err)
-	}
-
-	qLon, qhkLon, _ := qs.GetOK("lon")
-	if err := o.bindLon(qLon, qhkLon, route.Formats); err != nil {
-		res = append(res, err)
-	}
-
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-// bindHasWeather binds and validates parameter HasWeather from query.
-func (o *GetCitiesParams) bindHasWeather(rawData []string, hasKey bool, formats strfmt.Registry) error {
-	var raw string
-	if len(rawData) > 0 {
-		raw = rawData[len(rawData)-1]
-	}
-
-	// Required: false
-	// AllowEmptyValue: false
-	if raw == "" { // empty values pass all other validations
-		return nil
-	}
-
-	o.HasWeather = &raw
-
-	if err := o.validateHasWeather(formats); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// validateHasWeather carries on validations for parameter HasWeather
-func (o *GetCitiesParams) validateHasWeather(formats strfmt.Registry) error {
-
-	if err := validate.Enum("hasWeather", "query", *o.HasWeather, []interface{}{"true", "false"}); err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// bindLat binds and validates parameter Lat from query.
-func (o *GetCitiesParams) bindLat(rawData []string, hasKey bool, formats strfmt.Registry) error {
-	var raw string
-	if len(rawData) > 0 {
-		raw = rawData[len(rawData)-1]
-	}
-
-	// Required: false
-	// AllowEmptyValue: false
-	if raw == "" { // empty values pass all other validations
-		return nil
-	}
-
-	value, err := swag.ConvertFloat64(raw)
-	if err != nil {
-		return errors.InvalidType("lat", "query", "float64", raw)
-	}
-	o.Lat = &value
-
-	return nil
-}
-
-// bindLon binds and validates parameter Lon from query.
-func (o *GetCitiesParams) bindLon(rawData []string, hasKey bool, formats strfmt.Registry) error {
-	var raw string
-	if len(rawData) > 0 {
-		raw = rawData[len(rawData)-1]
-	}
-
-	// Required: false
-	// AllowEmptyValue: false
-	if raw == "" { // empty values pass all other validations
-		return nil
-	}
-
-	value, err := swag.ConvertFloat64(raw)
-	if err != nil {
-		return errors.InvalidType("lon", "query", "float64", raw)
-	}
-	o.Lon = &value
-
 	return nil
 }

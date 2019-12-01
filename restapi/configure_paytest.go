@@ -8,7 +8,6 @@ import (
 
 	errors "github.com/go-openapi/errors"
 	runtime "github.com/go-openapi/runtime"
-	middleware "github.com/go-openapi/runtime/middleware"
 
 	"github.com/Wuzi/pay-test-go/restapi/operations"
 	"github.com/Wuzi/pay-test-go/restapi/operations/city"
@@ -37,21 +36,9 @@ func configureAPI(api *operations.PaytestAPI) http.Handler {
 
 	api.JSONProducer = runtime.JSONProducer()
 
-	if api.CityGetCitiesHandler == nil {
-		api.CityGetCitiesHandler = city.GetCitiesHandlerFunc(func(params city.GetCitiesParams) middleware.Responder {
-			return middleware.NotImplemented("operation city.GetCities has not yet been implemented")
-		})
-	}
-	if api.CityGetCitiesIDHandler == nil {
-		api.CityGetCitiesIDHandler = city.GetCitiesIDHandlerFunc(func(params city.GetCitiesIDParams) middleware.Responder {
-			return middleware.NotImplemented("operation city.GetCitiesID has not yet been implemented")
-		})
-	}
-	if api.WeatherGetCitiesIDWeathersHandler == nil {
-		api.WeatherGetCitiesIDWeathersHandler = weather.GetCitiesIDWeathersHandlerFunc(func(params weather.GetCitiesIDWeathersParams) middleware.Responder {
-			return middleware.NotImplemented("operation weather.GetCitiesIDWeathers has not yet been implemented")
-		})
-	}
+	api.CityGetCitiesHandler = city.GetCitiesHandlerFunc(handlers.GetCitiesHandlerFunc)
+	api.CityGetCitiesIDHandler = city.GetCitiesIDHandlerFunc(handlers.GetCitiesIDHandlerFunc)
+	api.WeatherGetCitiesIDWeathersHandler = weather.GetCitiesIDWeathersHandlerFunc(handlers.GetCitiesIDWeathersHandlerFunc)
 
 	api.ServerShutdown = func() {}
 

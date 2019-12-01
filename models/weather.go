@@ -19,7 +19,7 @@ import (
 type Weather struct {
 
 	// Id of the city
-	CityID float64 `json:"cityId,omitempty"`
+	CityID int64 `json:"cityId,omitempty"`
 
 	// data
 	Data []*WeatherData `json:"data"`

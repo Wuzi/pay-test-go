@@ -7,6 +7,8 @@ import (
 	"os"
 
 	"github.com/Wuzi/pay-test-go/models"
+	"github.com/Wuzi/pay-test-go/restapi/operations/city"
+	"github.com/go-openapi/runtime/middleware"
 )
 
 // Cities is our in-memory "database"
@@ -25,4 +27,19 @@ func LoadCities() {
 
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 	json.Unmarshal(byteValue, &Cities)
+}
+
+// GetCitiesHandlerFunc returns an array of cities
+func GetCitiesHandlerFunc(params city.GetCitiesParams) middleware.Responder {
+	return city.NewGetCitiesOK().WithPayload(Cities)
+}
+
+// GetCitiesIDHandlerFunc returns a single city by id
+func GetCitiesIDHandlerFunc(params city.GetCitiesIDParams) middleware.Responder {
+	for _, c := range Cities {
+		if c.ID == params.ID {
+			return city.NewGetCitiesIDOK().WithPayload(c)
+		}
+	}
+	return city.NewGetCitiesIDNotFound()
 }

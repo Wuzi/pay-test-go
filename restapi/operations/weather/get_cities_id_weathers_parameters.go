@@ -9,7 +9,6 @@ import (
 	"net/http"
 
 	"github.com/go-openapi/errors"
-	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/go-openapi/swag"
 
@@ -32,19 +31,11 @@ type GetCitiesIDWeathersParams struct {
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
 
-	/*The end date to filter
-	  In: query
-	*/
-	EndDate *string
 	/*The id of the city
 	  Required: true
 	  In: path
 	*/
 	ID int64
-	/*The start date to filter
-	  In: query
-	*/
-	StartDate *string
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -56,44 +47,14 @@ func (o *GetCitiesIDWeathersParams) BindRequest(r *http.Request, route *middlewa
 
 	o.HTTPRequest = r
 
-	qs := runtime.Values(r.URL.Query())
-
-	qEndDate, qhkEndDate, _ := qs.GetOK("endDate")
-	if err := o.bindEndDate(qEndDate, qhkEndDate, route.Formats); err != nil {
-		res = append(res, err)
-	}
-
 	rID, rhkID, _ := route.Params.GetOK("id")
 	if err := o.bindID(rID, rhkID, route.Formats); err != nil {
-		res = append(res, err)
-	}
-
-	qStartDate, qhkStartDate, _ := qs.GetOK("startDate")
-	if err := o.bindStartDate(qStartDate, qhkStartDate, route.Formats); err != nil {
 		res = append(res, err)
 	}
 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
-	return nil
-}
-
-// bindEndDate binds and validates parameter EndDate from query.
-func (o *GetCitiesIDWeathersParams) bindEndDate(rawData []string, hasKey bool, formats strfmt.Registry) error {
-	var raw string
-	if len(rawData) > 0 {
-		raw = rawData[len(rawData)-1]
-	}
-
-	// Required: false
-	// AllowEmptyValue: false
-	if raw == "" { // empty values pass all other validations
-		return nil
-	}
-
-	o.EndDate = &raw
-
 	return nil
 }
 
@@ -112,24 +73,6 @@ func (o *GetCitiesIDWeathersParams) bindID(rawData []string, hasKey bool, format
 		return errors.InvalidType("id", "path", "int64", raw)
 	}
 	o.ID = value
-
-	return nil
-}
-
-// bindStartDate binds and validates parameter StartDate from query.
-func (o *GetCitiesIDWeathersParams) bindStartDate(rawData []string, hasKey bool, formats strfmt.Registry) error {
-	var raw string
-	if len(rawData) > 0 {
-		raw = rawData[len(rawData)-1]
-	}
-
-	// Required: false
-	// AllowEmptyValue: false
-	if raw == "" { // empty values pass all other validations
-		return nil
-	}
-
-	o.StartDate = &raw
 
 	return nil
 }
