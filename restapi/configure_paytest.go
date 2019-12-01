@@ -13,6 +13,8 @@ import (
 	"github.com/Wuzi/pay-test-go/restapi/operations"
 	"github.com/Wuzi/pay-test-go/restapi/operations/city"
 	"github.com/Wuzi/pay-test-go/restapi/operations/weather"
+
+	"github.com/Wuzi/pay-test-go/handlers"
 )
 
 //go:generate swagger generate server --target ../../pay-test-go --name Paytest --spec ../swagger.yml
@@ -53,6 +55,8 @@ func configureAPI(api *operations.PaytestAPI) http.Handler {
 
 	api.ServerShutdown = func() {}
 
+	handlers.LoadCities()
+	handlers.LoadWeathers()
 	return setupGlobalMiddleware(api.Serve(setupMiddlewares))
 }
 
