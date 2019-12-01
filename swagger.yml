@@ -1,0 +1,287 @@
+info:
+  title: Pay Test API
+  version: 0.1.0
+basePath: /v1
+swagger: '2.0'
+paths:
+  /cities:
+    get:
+      tags:
+        - City
+      summary: Show a list of all cities
+      description: Show a list of all cities
+      produces:
+        - application/json
+      parameters:
+        - name: hasWeather
+          in: query
+          type: string
+          enum:
+            - 'true'
+            - 'false'
+          description: Get only cities that have weather
+        - name: lat
+          in: query
+          type: number
+          description: Filter by latitude
+        - name: lon
+          in: query
+          type: number
+          description: Filter by longitude
+      responses:
+        '200':
+          description: Return an array with all cities
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/City'
+  '/cities/{id}':
+    get:
+      tags:
+        - City
+      summary: Show a single city by id
+      description: Show a single city by id
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          type: integer
+          required: true
+          description: The id of the city
+      responses:
+        '200':
+          description: Return a single object with city data
+          schema:
+            allOf:
+              - $ref: '#/definitions/City'
+              - type: object
+                properties:
+                  weather:
+                    $ref: '#/definitions/Weather'
+        '404':
+          description: City not found
+  '/cities/{id}/weathers':
+    get:
+      tags:
+        - Weather
+      summary: Show a list of weathers of a single city
+      description: Show a list of weathers of a single city
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          type: integer
+          required: true
+          description: The id of the city
+        - name: startDate
+          in: query
+          type: string
+          description: The start date to filter
+        - name: endDate
+          in: query
+          type: string
+          description: The end date to filter
+      responses:
+        '200':
+          description: Return an array of weathers of a single city
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/WeatherData'
+        '404':
+          description: City not found
+definitions:
+  CityCoord:
+    type: object
+    properties:
+      lon:
+        type: number
+        example: -2354.132455
+        description: Longitude of the city
+      lat:
+        type: number
+        example: 154.124546
+        description: Latitude of the city
+    required:
+      - lat
+      - lon
+  CityGeoName:
+    type: object
+    properties:
+      cl:
+        type: string
+        example: P
+        description: CL of city
+      code:
+        type: string
+        example: PPLA
+        description: Code of city
+      parent:
+        type: number
+        example: 6546498
+        description: Parent of city
+    required:
+      - cl
+      - code
+      - parent
+  CityStat:
+    type: object
+    properties:
+      level:
+        type: number
+        example: 1
+        description: Level of the city
+      population:
+        type: number
+        example: 205212
+        description: Population of city
+    required:
+      - level
+      - population
+  CityStation:
+    type: object
+    properties:
+      id:
+        type: number
+        example: 3985
+        description: Id of city station
+      dist:
+        type: number
+        example: 4
+        description: Dist of city station
+      kf:
+        type: number
+        example: 1
+        description: Kf of city station
+    required:
+      - id
+      - dist
+      - kf
+  City:
+    type: object
+    properties:
+      id:
+        type: number
+        example: 1
+        description: Id of the city
+      coord:
+        $ref: '#/definitions/CityCoord'
+      country:
+        type: string
+        example: AR
+        description: Initials of country
+      geoname:
+        $ref: '#/definitions/CityGeoName'
+      name:
+        type: string
+        example: Campeche
+        description: Name of city
+      stat:
+        $ref: '#/definitions/CityStat'
+      stations:
+        type: array
+        items:
+          $ref: '#/definitions/CityStation'
+      zoom:
+        type: number
+        example: 7
+        description: Zoom of city
+  WeatherData:
+    type: object
+    properties:
+      dt:
+        type: number
+        example: 1489428000
+        description: Date of weather
+      temp:
+        $ref: '#/definitions/WeatherTemp'
+      pressure:
+        type: number
+        example: 997.85
+        description: Pressure of weather
+      humidity:
+        type: number
+        example: 67
+        description: Humidity of weather
+      weather:
+        type: array
+        items:
+          $ref: '#/definitions/WeatherInfo'
+      speed:
+        type: number
+        example: 2.96
+        description: Speed of weather
+      deg:
+        type: number
+        example: 28
+        description: Deg of weather
+      clouds:
+        type: number
+        example: 76
+        description: Clouds of weather
+      uvi:
+        type: number
+        example: 7.59
+        description: UVI of weather
+  WeatherInfo:
+    type: object
+    properties:
+      id:
+        type: number
+        example: 803
+        description: Id of weather info
+      main:
+        type: string
+        example: clouds
+        description: Main of weather info
+      description:
+        type: string
+        example: broken clouds
+        description: description of weather info
+      icon:
+        type: string
+        example: 04n
+        description: Icon of weather info
+  WeatherTemp:
+    type: object
+    properties:
+      day:
+        type: number
+        example: 288.64
+        description: Day of weather temp
+      min:
+        type: number
+        example: 288.64
+        description: Min of weather temp
+      max:
+        type: number
+        example: 288.64
+        description: Max of weather temp
+      night:
+        type: number
+        example: 288.64
+        description: Night of weather temp
+      eve:
+        type: number
+        example: 288.64
+        description: Eve of weather temp
+      morn:
+        type: number
+        example: 288.64
+        description: Morn of weather temp
+  Weather:
+    type: object
+    properties:
+      cityId:
+        type: number
+        example: 1
+        description: Id of the city
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/WeatherData'
+responses: {}
+parameters: {}
+tags: []
