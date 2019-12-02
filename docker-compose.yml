@@ -1,0 +1,10 @@
+version: "3.7"
+services:
+  app:
+    image:  wuzi/pay-test-go:0.1.0
+    container_name: paytestgo.api
+    ports:
+      - 3002:3002
+    environment:
+      HOST: 0.0.0.0
+      PORT: 3002
